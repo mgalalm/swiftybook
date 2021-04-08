@@ -1,0 +1,11 @@
+org/acme/commons/dto/CategoryDto.class
+org/acme/commons/config/OpenApiConfig.class
+org/acme/commons/dto/AddressDto.class
+org/acme/commons/dto/PlaceDto.class
+org/acme/commons/domain/AbstractEntity.class
+org/acme/commons/dto/CustomerDto.class
+org/acme/commons/health/KeycloakConnectionHealthCheck.class
+org/acme/commons/dto/BookingDto.class
+org/acme/commons/dto/PaymentDto.class
+org/acme/commons/security/TokenService.class
+org/acme/commons/dto/ReviewDto.class

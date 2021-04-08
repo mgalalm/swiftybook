@@ -1,0 +1,11 @@
+/Users/mgalal/swiftybook/swiftybook-commons/src/main/java/org/acme/commons/config/OpenApiConfig.java
+/Users/mgalal/swiftybook/swiftybook-commons/src/main/java/org/acme/commons/domain/AbstractEntity.java
+/Users/mgalal/swiftybook/swiftybook-commons/src/main/java/org/acme/commons/dto/BookingDto.java
+/Users/mgalal/swiftybook/swiftybook-commons/src/main/java/org/acme/commons/dto/PaymentDto.java
+/Users/mgalal/swiftybook/swiftybook-commons/src/main/java/org/acme/commons/dto/AddressDto.java
+/Users/mgalal/swiftybook/swiftybook-commons/src/main/java/org/acme/commons/dto/PlaceDto.java
+/Users/mgalal/swiftybook/swiftybook-commons/src/main/java/org/acme/commons/dto/CategoryDto.java
+/Users/mgalal/swiftybook/swiftybook-commons/src/main/java/org/acme/commons/dto/CustomerDto.java
+/Users/mgalal/swiftybook/swiftybook-commons/src/main/java/org/acme/commons/health/KeycloakConnectionHealthCheck.java
+/Users/mgalal/swiftybook/swiftybook-commons/src/main/java/org/acme/commons/security/TokenService.java
+/Users/mgalal/swiftybook/swiftybook-commons/src/main/java/org/acme/commons/dto/ReviewDto.java
