@@ -1,0 +1,13 @@
+extraVolumes: |
+  - name: realm-secret
+    secret:
+      secretName: realm-secret
+
+extraVolumeMounts: |
+  - name: realm-secret
+    mountPath: "/realm/"
+    readOnly: true
+
+extraEnv: |
+  - name: KEYCLOAK_IMPORT
+    value: /realm/realm.json

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-initdb
+  labels:
+    app: postgres
+data:
+  initdb.sql: |
+    CREATE DATABASE customer;
+    CREATE DATABASE booking;
+    CREATE DATABASE place;
