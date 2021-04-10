@@ -12,16 +12,40 @@ brew install helm
 
 ### Create IDM service based on [keycloak](https://www.keycloak.org/)
 
-1. Create namespace
+1. Export the confguration 
+We need to export the realm configuration form alreay running instance
+
+```sh
+docker exec -it docker-keycloak bash
+cd /opt/jboss/keycloak/bin/
+mkdir backup
+./standalone.sh -Djboss.socket.binding.port-offset=1000 \
+-Dkeycloak.migration.realmName=quarkushop-realm \
+-Dkeycloak.migration.action=export \
+-Dkeycloak.migration.provider=dir \
+-Dkeycloak.migration.dir=./backup/
+```
+
+in the host machine 
+```sh
+mkdir ~/keycloak-realms
+```
+
+```
+docker cp docker-keycloak:/opt/jboss/keycloak/bin/backup ~/keycloak-realms
+```
+
+
+2. Create namespace
 ```sh
 kubectl create namespace keycloak
 ```
-2. Add the repo 
+3. Add the repo 
 
 ```sh
 helm repo add codecentric https://codecentric.github.io/helm-charts
 ```
-3. Install and keycloak
+4. Install and keycloak
 
 Note: I reimported already realm.json
  
@@ -30,7 +54,7 @@ kubectl create secret generic realm-secret --from-file=realm.json -n keycloak
 helm install keycloak codecentric/keycloak -n keycloak --values values.yaml
 ```
 
-4. Port forwarding  
+5. Port forwarding  
 ```sh
 kubectl -n keycloak port-forward service/keycloak-http 9080:80
 ```
@@ -59,13 +83,16 @@ quarkus.container-image.group=mgalalm
 mvn clean install -Pnative -Dquarkus.native.container-build=false -Dquarkus.container-image.build=true -DskipTests=true  -Dquarkus.native.container-build=true
 ```
 
-This will result in an image with mgalalm/swiftybook-place:1.0.0-SNAPSHOT
+This will result in an image with mgalalm/swiftybook-place:1.0.0-SNAPSHOT. 
 
 
 You can verify the image 
 ```sh
 docker images -a
 ```
+
+In addaition to the image, k8s descriptors will be genargted in in targets/kubernetes.
+
 #### Push the image 
 
 there is two ways to push the image manually or by with quarkus
@@ -98,4 +125,18 @@ You can test it now
 http://localhost:8080/api/places
 
 ### Troubleshooting 
+
+To check what went worng with the pod you can use kubectl logs -f [name of pods]
+
+```sh
 kubectl logs -f pod/postgres-68f6497d59-94jds
+```
+
+Any time you want to stop port forwarding, either CTRL + C OR find the process by typing the following command and 
+
+```sh
+ ps aux | grep kubectl 
+``` 
+```sh
+kill -9 the process id 
+```
