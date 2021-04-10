@@ -9,6 +9,13 @@
 6. DB service(s)
 
 
+### Technology and Toolchain 
+
+- https://code.quarkus.io/
+- IntelliJ IDEA
+- Minikube
+- postgres
+- docker
 ### Setup the K8s
 #### Install kubectl
 ```sh
@@ -102,7 +109,7 @@ You can verify the image
 docker images -a
 ```
 
-In addaition to the image, k8s descriptors will be genargted in in targets/kubernetes.
+In addition to the image, k8s descriptors will be generated in in targets/kubernetes.
 
 #### Push the image 
 
@@ -151,3 +158,25 @@ Any time you want to stop port forwarding, either CTRL + C OR find the process b
 ```sh
 kill -9 the process id 
 ```
+
+
+### Development 
+
+Create .env file in the root directory of each service
+
+QUARKUS_DATASOURCE_USERNAME=developer
+QUARKUS_DATASOURCE_PASSWORD=p4SSW0rd
+QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://localhost:5432/booking
+PLACE_SERVICE_URL=http://127.0.0.1:57810/api
+
+Create a postregs database, typically using docker
+
+
+#### Next steps
+### Must have 
+1. validation
+2. store application passwords securely 
+
+### Nice to have
+1. test
+2. UI

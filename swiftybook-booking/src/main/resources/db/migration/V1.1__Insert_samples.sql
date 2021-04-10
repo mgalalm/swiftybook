@@ -1,0 +1,2 @@
+INSERT INTO bookings (id, created_date, last_modified_date, booked_from, booked_to, guest_number, status, total_price, place_id, payment_id, customer_id)
+VALUES  (1, current_timestamp, current_timestamp,  current_date + 2, current_date + 4, 1, 'CREATED', 300.00, 1, 1, 1);

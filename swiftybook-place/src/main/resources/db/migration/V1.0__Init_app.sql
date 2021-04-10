@@ -1,6 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS booking;
 CREATE SCHEMA IF NOT EXISTS place;
-CREATE SCHEMA IF NOT EXISTS customer;
 
 create sequence place.hibernate_sequence START WITH 100 INCREMENT BY 1;
 
