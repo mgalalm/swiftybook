@@ -1,13 +1,41 @@
+### Setup the K8s
+#### Install kubectl
+```sh
+brew install kubectl 
+kubectl config use-context minikube
+```
 
-### Create keycloak pod
+#### Install helm
+```sh
+brew install helm
+```
 
+### Create IDM service based on [keycloak](https://www.keycloak.org/)
+
+1. Create namespace
+```sh
+kubectl create namespace keycloak
+```
+2. Add the repo 
+
+```sh
+helm repo add codecentric https://codecentric.github.io/helm-charts
+```
+3. Install and keycloak
+
+Note: I reimported already realm.json
+ 
 ```sh
 kubectl create secret generic realm-secret --from-file=realm.json -n keycloak
 helm install keycloak codecentric/keycloak -n keycloak --values values.yaml
+```
+
+4. Port forwarding  
+```sh
 kubectl -n keycloak port-forward service/keycloak-http 9080:80
 ```
 
-### To create the database pod
+### Create database service 
 ```
 kubctl create -f
 ```
