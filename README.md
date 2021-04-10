@@ -1,3 +1,14 @@
+# Swiftbook project
+
+## Current services
+1. Place service
+2. User service
+3. Customer service
+4. Booking service 
+5. IDMS service
+6. DB service(s)
+
+
 ### Setup the K8s
 #### Install kubectl
 ```sh
@@ -10,7 +21,7 @@ kubectl config use-context minikube
 brew install helm
 ```
 
-### Create IDM service based on [keycloak](https://www.keycloak.org/)
+### Create IDMS service based on [keycloak](https://www.keycloak.org/)
 
 1. Export the confguration 
 We need to export the realm configuration form alreay running instance
