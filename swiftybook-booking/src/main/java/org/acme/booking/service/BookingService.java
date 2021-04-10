@@ -67,7 +67,7 @@ public class BookingService {
     public BookingDto create(BookingDto bookingDto) {
         log.debug("Request to create Booking : {}", bookingDto);
         var placeId = bookingDto.getPlaceId();
-        var place = this.placeRestClient.findById(placeId);
+        var place = this.placeRestClient.findById(placeId).orElseThrow(() -> new IllegalStateException("No Place exists by this place id " + placeId));
 //        var customerId = bookingDto.getCustomerId();
         var totalPrice = place.getPrice().multiply(BigDecimal.valueOf(bookingDto.getGuestNumber()));
 

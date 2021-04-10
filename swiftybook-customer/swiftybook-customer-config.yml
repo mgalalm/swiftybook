@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: swiftybook-place-config
+  name: swiftybook-customer-config
 data:
   application.properties: |-
-    quarkus.datasource.jdbc.url=jdbc:postgresql://postgres:5432/place
+    quarkus.datasource.jdbc.url=jdbc:postgresql://postgres:5432/customer
     mp.jwt.verify.publickey.location=http://keycloak-http.keycloak/auth/realms/swiftybooking-relam/protocol/openid-connect/certs
     mp.jwt.verify.issuer=http://keycloak-http.keycloak/auth/realms/swiftybooking-relam

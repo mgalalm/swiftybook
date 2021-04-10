@@ -6,11 +6,12 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import java.util.Optional;
 
 @Path("/places")
 @RegisterRestClient  // For CDI injection as a REST Client
 public interface PlaceRestClient {
     @GET
     @Path("/{id}")
-    PlaceDto findById(@PathParam Long id);
+    Optional<PlaceDto> findById(@PathParam Long id);
 }

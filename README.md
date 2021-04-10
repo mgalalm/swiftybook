@@ -17,12 +17,17 @@
 - postgres
 - docker
 ### Setup the K8s
+
+#### Install Minikube
+Start minikube
+```sh
+minikube start --driver=docker
+```
 #### Install kubectl
 ```sh
 brew install kubectl 
 kubectl config use-context minikube
 ```
-
 #### Install helm
 ```sh
 brew install helm
@@ -79,7 +84,7 @@ kubectl -n keycloak port-forward service/keycloak-http 9080:80
 
 ### Create database service 
 ```
-kubctl create -f
+kubctl create -f .
 ```
 ```
 minikube service postgres --url
@@ -159,8 +164,15 @@ Any time you want to stop port forwarding, either CTRL + C OR find the process b
 kill -9 the process id 
 ```
 
+Database
+
+to see the database tables, you can connect to them using intrejidea connection to shwow all schemes, right clikc porpeorites -> scehems tab and check the scheme 
+
+
+
 
 ### Development 
+
 
 Create .env file in the root directory of each service
 
@@ -170,8 +182,15 @@ QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://localhost:5432/booking
 PLACE_SERVICE_URL=http://127.0.0.1:57810/api
 
 Create a postregs database, typically using docker
-
-
+```sh
+docker run -d --name demo-postgres \
+-e POSTGRES_USER=developer \
+-e POSTGRES_PASSWORD=p4SSW0rd \
+-e POSTGRES_DB=demo \
+-p 5432:5432 postgres:13
+```
+/etc/hosts
+127.0.0.1 postgres
 #### Next steps
 ### Must have 
 1. validation
