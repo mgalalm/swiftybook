@@ -55,4 +55,10 @@ public class BookingResource {
     public boolean existsById(@PathParam("id") Long id) {
         return this.bookingService.existsById(id);
     }
+
+    @GET
+    @Path("/payment/{id}")
+    public BookingDto findByPaymentId(@PathParam("id") Long id) {
+        return this.bookingService.findByPaymentId(id);
+    }
 }

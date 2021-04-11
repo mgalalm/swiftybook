@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class BookingService {
 
     @Inject
-    BookingRepository BookingRepository;
+    BookingRepository bookingRepository;
     @Inject
     @RestClient
     PlaceRestClient placeRestClient;
@@ -44,7 +44,7 @@ public class BookingService {
 
     public List<BookingDto> findAll() {
         log.debug("Request to get all Bookings");
-        return this.BookingRepository.findAll()
+        return this.bookingRepository.findAll()
                 .stream()
                 .map(BookingService::mapToDto)
                 .collect(Collectors.toList());
@@ -52,13 +52,13 @@ public class BookingService {
 
     public BookingDto findById(Long id) {
         log.debug("Request to get Booking : {}", id);
-        return this.BookingRepository.findById(id)
+        return this.bookingRepository.findById(id)
                 .map(BookingService::mapToDto)
                 .orElse(null);
     }
 
     public List<BookingDto> findAllByUser(Long id) {
-        return this.BookingRepository.findByCustomerId(id)
+        return this.bookingRepository.findByCustomerId(id)
                 .stream()
                 .map(BookingService::mapToDto)
                 .collect(Collectors.toList());
@@ -72,7 +72,7 @@ public class BookingService {
         var totalPrice = place.getPrice().multiply(BigDecimal.valueOf(bookingDto.getGuestNumber()));
 
         return mapToDto(
-                this.BookingRepository.save(
+                this.bookingRepository.save(
                         new Booking(
                                 totalPrice,
                                 BookingStatus.CREATED,
@@ -90,15 +90,22 @@ public class BookingService {
     public void delete(Long id) {
         log.debug("Request to delete Booking : {}", id);
 
-        var Booking = this.BookingRepository.findById(id)
+        var Booking = this.bookingRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Booking with ID[" + id + "] cannot be found!"));
 
 //        Optional.ofNullable(Booking.getPayment()).ifPresent(paymentRepository::delete);
 
-        BookingRepository.delete(Booking);
+        bookingRepository.delete(Booking);
     }
 
     public boolean existsById(Long id) {
-        return this.BookingRepository.existsById(id);
+        return this.bookingRepository.existsById(id);
+    }
+
+    public BookingDto findByPaymentId(Long id) {
+        return mapToDto(
+                this.bookingRepository.findByPaymentId(id)
+                        .orElseThrow(() -> new IllegalStateException("Booking with ID[" + id + "] cannot be found!"))
+        );
     }
 }
