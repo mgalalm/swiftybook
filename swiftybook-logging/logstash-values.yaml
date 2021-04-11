@@ -1,0 +1,42 @@
+logstashConfig:
+  logstash.yml: |
+    http.host: "0.0.0.0"
+    xpack.monitoring.elasticsearch.hosts: [ "http://elasticsearch-master:9200" ]
+    xpack.monitoring.enabled: true
+  pipelines.yml: |
+    - pipeline.id: custom
+      path.config: "/usr/share/logstash/pipeline/logstash.conf"
+# enabling the gelf plugin and exposing the default 12201 port + defining the
+# Logstash output pattern and flow to our Elasticsearch in
+logstashPipeline:
+  logstash.conf: |
+    input {
+      gelf {
+        port => 12201
+        type => gelf
+      }
+    }
+    output {
+      stdout {}
+      elasticsearch {
+        hosts => ["http://elasticsearch-master:9200"]
+        index => "logstash-%{+YYYY-MM-dd}"
+      }
+    }
+# Logstash Service definition and exposed ports
+service:
+  annotations: {}
+  type: ClusterIP
+  ports:
+    - name: filebeat
+      port: 5000
+      protocol: TCP
+      targetPort: 5000
+    - name: api
+      port: 9600
+      protocol: TCP
+      targetPort: 9600
+    - name: gelf
+      port: 12201
+      protocol: UDP
+      targetPort: 12201
