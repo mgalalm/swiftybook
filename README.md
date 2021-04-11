@@ -1,5 +1,11 @@
 # Swiftbook project
 
+### Requirements 
+
+- Service discovery and registration: made using the Kubernetes Deployment & Service objects.
+- Externalized configuration: made using the Kubernetes ConfigMap and Secret objects.
+- Security Between Services (Admin /User): implemented using the SmallRye JWT Quarkus Extension and Keycloak.
+
 ## Current services
 1. Place service
 2. User service
@@ -16,6 +22,11 @@
 - Minikube
 - postgres
 - docker
+- postman for test
+
+File -> New Project form existing source
+
+Select Maven and click finish 
 ### Setup the K8s
 
 #### Install Minikube
@@ -193,9 +204,15 @@ docker run -d --name demo-postgres \
 127.0.0.1 postgres
 #### Next steps
 ### Must have 
-1. validation
-2. store application passwords securely 
+1. Authentication
+2. Validation
+3. Store application passwords securely 
 
 ### Nice to have
-1. test
-2. UI
+1. Digarams
+   -  All services page 318
+2. metrics
+3. test
+4. UI
+5. command line banner banner.txt
+6. Health check
