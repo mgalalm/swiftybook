@@ -11,3 +11,12 @@ extraVolumeMounts: |
 extraEnv: |
   - name: KEYCLOAK_IMPORT
     value: /realm/realm.json
+
+pgchecker:
+  resources:
+    requests:
+      cpu: '20m'
+      memory: '32Mi'
+    limits:
+      cpu: '20m'
+      memory: '32Mi'

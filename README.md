@@ -59,8 +59,10 @@ Select Maven and click finish
 #### Install Minikube
 Start minikube
 ```sh
-    minikube start --driver=docker
+    minikube start --cpus 4 --memory 8192 --driver=virtualbox
 ```
+
+At the time of writing  and there is issue with ingress and docker, and vmware driver doesn't work at all,so you best bet is virtualbox.
 #### Install kubectl
 ```sh
     brew install kubectl 
@@ -70,7 +72,10 @@ Start minikube
 ```sh
     brew install helm
 ```
-
+### Install ingress
+```sh
+minikube addons enable ingress
+``` 
 ### Create IDMS service based on [keycloak](https://www.keycloak.org/)
 
 1. Spin up a development instance either native or using docker (recommended)
@@ -123,8 +128,15 @@ helm repo add codecentric https://codecentric.github.io/helm-charts
 Note: I reimported already realm.json
  
 ```sh
-kubectl create secret generic realm-secret --from-file=realm.json -n keycloak
-helm install keycloak codecentric/keycloak -n keycloak --values values.yaml
+kubectl create secret generic realm-secret --from-file=swiftybook-idms/realm.json -n keycloak
+```
+```sh
+helm install keycloak codecentric/keycloak -n keycloak --values swiftybook-idms/values.yaml
+```
+The pod creation will take few minutes, you can check the status
+
+```sh
+kubectl get all -n keycloak
 ```
 
 5. Port forwarding  
@@ -133,13 +145,17 @@ kubectl -n keycloak port-forward service/keycloak-http 9080:80
 ```
 
 ### Create database service 
+In the database folder 
+
+```sh
+kubectl create -f swiftybook-database/.
 ```
-kubctl create -f .
-```
+
 ```
 minikube service postgres --url
 ```
 
+http://192.168.99.101:32728
 
 ### Increase the resources of docker engine 
 ### Install minikube
@@ -180,7 +196,10 @@ docker push mgalalm/swiftybook-place:1.0.0-SNAPSHOT
 ```
 
 or by appending -Dquarkus.container-image.push=true to the building image command
-#### Deploy as pod 
+#### Deploy application services 
+```sh
+kubectl apply -f swiftybook-user-config.yml
+```
 ```sh
 kubectl apply -f target/kubernetes/kubernetes.yml
 ```
@@ -209,11 +228,12 @@ we use quarkus-logging-gelf extension
   helm repo update
 ```
 ```sh
-helm install elasticsearch elastic/elasticsearch -f swiftybook-logging/elasticsearch-values.yaml
+helm install elasticsearch elastic/elasticsearch -f swiftybook/elasticsearch-values.yaml
 ```
 ```sh
     kubectl get all -l release=elasticsearch
 ```
+It will take few  minutes till the pods come up and be ready
 
 The output should be something like that
 ```
@@ -234,8 +254,12 @@ To test elasticsearch locally
 ```sh
 kubectl port-forward service/elasticsearch-master 9200
 ```
-The output should be 
+
 ```sh
+  curl localhost:9200
+```
+The output should be 
+```json
 {
   "name" : "elasticsearch-master-0",
   "cluster_name" : "elasticsearch",
@@ -254,34 +278,35 @@ The output should be
   "tagline" : "You Know, for Search"
 }
 ```
-
 #### Install kibana
 ```sh
 helm install kibana elastic/kibana --set fullnameOverride=quarkushop-kibana
 ```
+
 ```sh
 kubectl get all -l release=kibana
 ```
 
-To put it to tets
+To put it to test
+
 ```sh
- kubectl port-forward service/quarkushop-kibana 5601
+kubectl port-forward service/quarkushop-kibana 5601
 ```
 
 You may test the UI in the browser
 
 #### Install logstash
 ```sh
-helm install -f ./logstash-values.yaml logstash elastic/logstash --set fullnameOverride=quarkushop-logstash
+helm install -f swiftybook-logging/logstash-values.yaml logstash elastic/logstash --set fullnameOverride=quarkushop-logstash
 ```
 ```sh
- kubectl get all -l chart=logstash
+kubectl get all -l chart=logstash
 ```
 It may take a few minutes for the pods to come up.
 
 ### Jagger 
 ```sh
- kubectl apply -f 
+ kubectl apply -f swiftybook-tracing/.
 ```
 
 ```sh
